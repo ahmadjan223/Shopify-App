@@ -308,18 +308,24 @@ export default function Index() {
             <s-stack direction="block" gap="base">
               <s-stack direction="block" gap="tight">
                 <s-text emphasis="strong">Select Scope:</s-text>
-                <s-radio-group
+                <select
                   value={scope}
                   onChange={(e) => {
                     setScope(e.target.value);
                     setCollectionId("");
                     setSelectedTag("");
                   }}
+                  style={{
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                    width: "100%",
+                  }}
                 >
-                  <s-radio value="all">All Products</s-radio>
-                  <s-radio value="collection">Products in Collection</s-radio>
-                  <s-radio value="tag">Products with Tag</s-radio>
-                </s-radio-group>
+                  <option value="all">All Products</option>
+                  <option value="collection">Products in Collection</option>
+                  <option value="tag">Products with Tag</option>
+                </select>
               </s-stack>
 
               {scope === "collection" && (
