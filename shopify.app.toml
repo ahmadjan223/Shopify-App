@@ -38,4 +38,5 @@ scopes = "read_products,write_products"
 redirect_urls = [
   "https://shopify-app-roan-zeta.vercel.app/auth/callback",
   "https://shopify-app-roan-zeta.vercel.app/auth/login"
+]ogin"
 ]
