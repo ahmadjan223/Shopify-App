@@ -12,5 +12,8 @@ export const action = async ({ request }) => {
     await db.session.deleteMany({ where: { shop } });
   }
 
+  // Clean up subscription data
+  await db.subscription.deleteMany({ where: { shop } });
+
   return new Response();
 };

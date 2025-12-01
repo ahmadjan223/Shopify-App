@@ -2,6 +2,7 @@
 
 client_id = "5e059c19ab92ec1a79c4f4d2989f3f87"
 name = "strategic-merchandise-app"
+# TODO: Update this to your production URL before App Store submission
 application_url = "https://example.com"
 embedded = true
 
@@ -25,4 +26,5 @@ api_version = "2026-01"
 scopes = "write_products"
 
 [auth]
+# TODO: Update this to your production URL before App Store submission
 redirect_urls = [ "https://example.com/api/auth" ]

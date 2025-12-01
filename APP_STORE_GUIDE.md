@@ -190,8 +190,9 @@ Fill out all required sections:
    - Terms of Service (optional but recommended)
 
 4. **Pricing:**
-   - Choose pricing model
-   - Set up billing (if applicable)
+   - Choose pricing model (recurring subscription recommended)
+   - Set up billing using Shopify Billing API (already implemented in this app)
+   - Configure pricing tiers if offering multiple plans
 
 ### 4.3 Submit for Review
 
@@ -246,6 +247,73 @@ Once approved:
    - Write blog posts
    - Engage with users
 
+## 💳 Step 7: Set Up Billing (Paid App)
+
+### 7.1 Billing Implementation
+
+This app already includes billing functionality using Shopify's Billing API. Here's what's implemented:
+
+**Features:**
+- ✅ Subscription creation with Shopify Billing API
+- ✅ Subscription status checking
+- ✅ Subscription cancellation
+- ✅ Webhook handlers for subscription updates
+- ✅ Protected routes that require active subscription
+- ✅ Billing management page
+
+### 7.2 Configure Pricing
+
+1. **Update Default Pricing** (optional):
+   - Edit `app/routes/app.billing.jsx` to customize plan options
+   - Modify default prices in the billing page component
+
+2. **Test Billing Flow:**
+   ```bash
+   # Install app on a development store
+   npm run dev
+   
+   # Navigate to /app/billing
+   # Test subscription creation
+   # Verify subscription confirmation flow
+   ```
+
+3. **Billing Requirements:**
+   - App must be in production (not just development)
+   - App must be submitted to App Store
+   - Billing API requires proper app authentication
+
+### 7.3 Database Migration
+
+After updating the Prisma schema, run migrations:
+
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Create migration for Subscription model
+npx prisma migrate dev --name add_subscription_model
+
+# For production
+npx prisma migrate deploy
+```
+
+### 7.4 Billing Webhooks
+
+The app automatically handles these webhooks:
+- `app_subscriptions/create` - When a subscription is created
+- `app_subscriptions/update` - When subscription status changes
+
+These are already configured in `shopify.app.toml`.
+
+### 7.5 Pricing Strategy
+
+Consider these pricing models:
+- **Single Plan**: One price for all features
+- **Tiered Plans**: Basic, Pro, Enterprise (already implemented in UI)
+- **Usage-Based**: Charge based on usage (requires additional implementation)
+
+**Recommended:** Start with a single recurring monthly subscription, then add tiers as you grow.
+
 ## 🔍 Pre-Submission Checklist
 
 Before submitting, verify:
@@ -255,6 +323,9 @@ Before submitting, verify:
 - [ ] All environment variables are configured
 - [ ] App installs successfully on a test store
 - [ ] All features work correctly
+- [ ] **Billing flow works correctly (create, confirm, cancel)**
+- [ ] **Subscription status checking works**
+- [ ] **Protected routes require subscription**
 - [ ] Privacy policy is published and accessible
 - [ ] Support contact information is available
 - [ ] App icon is prepared (1200x1200px)
@@ -265,13 +336,17 @@ Before submitting, verify:
 - [ ] App is tested on multiple stores
 - [ ] Webhooks are working correctly
 - [ ] App uninstall cleanup works
+- [ ] **Database migration for Subscription model is run**
 
 ## 📚 Additional Resources
 
 - [Shopify App Store Requirements](https://shopify.dev/docs/apps/store/requirements)
 - [App Review Guidelines](https://shopify.dev/docs/apps/store/review)
 - [Deployment Documentation](https://shopify.dev/docs/apps/launch/deployment)
+- [Shopify Billing API](https://shopify.dev/docs/apps/billing)
+- [App Subscription API](https://shopify.dev/docs/api/admin-graphql/latest/mutations/appSubscriptionCreate)
 - [Partner Dashboard](https://partners.shopify.com)
+- [Revenue Share Information](https://help.shopify.com/partners/making-apps)
 
 ## 🆘 Need Help?
 

@@ -30,3 +30,17 @@ model Session {
   collaborator  Boolean?  @default(false)
   emailVerified Boolean?  @default(false)
 }
+
+model Subscription {
+  id              String   @id @default(cuid())
+  shop            String   @unique
+  subscriptionId  String   @unique // Shopify subscription ID
+  status          String   // ACTIVE, CANCELLED, EXPIRED, etc.
+  planName        String   // e.g., "Basic", "Pro"
+  price           String   // Price in decimal format
+  currency        String   @default("USD")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  cancelledAt    DateTime?
+  trialEndsAt     DateTime?
+}

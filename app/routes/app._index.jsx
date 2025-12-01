@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
-import { useFetcher, useLoaderData } from "react-router";
+import { useFetcher, useLoaderData, useNavigate } from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
+import { hasActiveSubscription } from "../billing.server";
 
 export const loader = async ({ request }) => {
-  const { admin } = await authenticate.admin(request);
+  const { admin, session } = await authenticate.admin(request);
+  
+  // Check if shop has an active subscription
+  const isSubscribed = await hasActiveSubscription(session.shop);
+  
+  if (!isSubscribed) {
+    // Return subscription status to show upgrade message
+    return {
+      requiresSubscription: true,
+      collections: [],
+      tags: [],
+    };
+  }
 
   // Fetch collections
   const collectionsResponse = await admin.graphql(`
@@ -254,9 +267,10 @@ export const action = async ({ request }) => {
 };
 
 export default function Index() {
-  const { collections, tags } = useLoaderData();
+  const { collections, tags, requiresSubscription } = useLoaderData();
   const fetcher = useFetcher();
   const shopify = useAppBridge();
+  const navigate = useNavigate();
   const [scope, setScope] = useState("all");
   const [percentage, setPercentage] = useState("");
   const [collectionId, setCollectionId] = useState("");
@@ -273,6 +287,38 @@ export default function Index() {
       shopify.toast.show(fetcher.data.error, { isError: true });
     }
   }, [fetcher.data, shopify]);
+
+  // Show subscription required message if not subscribed
+  if (requiresSubscription) {
+    return (
+      <s-page heading="Price Adjustment Tool">
+        <s-section heading="Subscription Required">
+          <s-box
+            padding="base"
+            borderWidth="base"
+            borderRadius="base"
+            background="warning-subdued"
+          >
+            <s-stack direction="block" gap="base">
+              <s-text emphasis="strong">
+                Active Subscription Required
+              </s-text>
+              <s-paragraph>
+                To use this app, you need an active subscription. Please
+                subscribe to continue.
+              </s-paragraph>
+              <s-button
+                onClick={() => navigate("/app/billing")}
+                variant="primary"
+              >
+                Subscribe Now
+              </s-button>
+            </s-stack>
+          </s-box>
+        </s-section>
+      </s-page>
+    );
+  }
 
   const handleSubmit = (actionType) => {
     if (!percentage || parseFloat(percentage) <= 0) {
