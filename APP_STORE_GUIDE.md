@@ -97,6 +97,22 @@ SHOP_CUSTOM_DOMAIN=your-custom-domain.com
    - Test installation on a development store
    - Verify all features work correctly
 
+### 1.5 Deploying on Vercel (Current Setup)
+
+This repo is pre-configured for Vercel using `api/index.js` + `vercel.json`.
+
+1. **Connect the repo to Vercel** (via CLI `vercel` or GitHub import).
+2. **Set required env vars** in Vercel Project → Settings → Environment Variables:
+   - `SHOPIFY_API_KEY`
+   - `SHOPIFY_API_SECRET`
+   - `SHOPIFY_APP_URL=https://strategic-merchandise-app.vercel.app` (or your custom domain)
+   - `SCOPES=read_products,write_products`
+   - `DATABASE_URL`
+   - `NODE_ENV=production`
+3. **Deploy** – Vercel will run `npm run build` and serve `build/client` statics while all requests proxy to `/api`.
+4. **Update Shopify config** – set `application_url` & redirect URLs in both `shopify.app.toml` and the Partner Dashboard to the Vercel domain.
+5. **Test** – install the app on a dev store using the Vercel URL and verify OAuth, billing, and webhooks from the Vercel logs.
+
 ## 📝 Step 2: Prepare App Store Listing
 
 ### 2.1 Required Information
