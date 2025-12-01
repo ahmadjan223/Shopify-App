@@ -105,7 +105,7 @@ This repo is pre-configured for Vercel using `api/index.js` + `vercel.json`.
 2. **Set required env vars** in Vercel Project → Settings → Environment Variables:
    - `SHOPIFY_API_KEY`
    - `SHOPIFY_API_SECRET`
-   - `SHOPIFY_APP_URL=https://strategic-merchandise-app.vercel.app` (or your custom domain)
+   - `SHOPIFY_APP_URL=https://shopify-app-roan-zeta.vercel.app` (or your custom domain)
    - `SCOPES=read_products,write_products`
    - `DATABASE_URL`
    - `NODE_ENV=production`

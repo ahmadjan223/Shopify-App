@@ -3,7 +3,7 @@
 client_id = "5e059c19ab92ec1a79c4f4d2989f3f87"
 name = "strategic-merchandise-app"
 # Vercel production URL; keep this in sync with SHOPIFY_APP_URL env var
-application_url = "https://strategic-merchandise-app.vercel.app"
+application_url = "https://shopify-app-roan-zeta.vercel.app"
 embedded = true
 
 [build]
@@ -36,6 +36,6 @@ scopes = "read_products,write_products"
 [auth]
 # OAuth callbacks handled by app/routes/auth.$.jsx & auth.login/*
 redirect_urls = [
-  "https://strategic-merchandise-app.vercel.app/auth/callback",
-  "https://strategic-merchandise-app.vercel.app/auth/login"
+  "https://shopify-app-roan-zeta.vercel.app/auth/callback",
+  "https://shopify-app-roan-zeta.vercel.app/auth/login"
 ]
